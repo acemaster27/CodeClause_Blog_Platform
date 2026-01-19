@@ -1,8 +1,9 @@
 const express = require('express');
 const app = express();
-const path = require('path');
+const cookieParser = require('cookie-parser');
+const apiRoutes = require('./routes/index')
 
-const { PORT, MONGO_URL } = require('./config')
+const { PORT, MONGO_URL } = require('./config/config')
 
 const connectToMongoDB = require('./connection');
 connectToMongoDB(MONGO_URL);
@@ -10,9 +11,9 @@ connectToMongoDB(MONGO_URL);
 const setupAndStartServer = () => { 
     app.use(express.json());
     app.use(express.urlencoded({extended: true}));
-    
-    app.set('view engine', 'ejs');
-    app.set('views', path.resolve('./views'));
+    app.use(cookieParser());
+
+    app.use('/', apiRoutes);
 
     app.listen(PORT, () => {
         console.log(`Listening on server ${PORT}`);
