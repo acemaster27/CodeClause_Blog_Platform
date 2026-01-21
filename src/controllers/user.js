@@ -2,7 +2,6 @@ const { userLogin, userSignUp } = require('../services/user');
 
 const Signup = async (req, res) => {
     try{
-        userSignUp(req);
         const { user, token } = await userSignUp(req);
         res.cookie('jwt', token, {
             httpOnly: true,
@@ -24,7 +23,7 @@ const Signup = async (req, res) => {
 
 const Login = async (req, res) => {
     try {
-        const { user, token } = await Login(req);
+        const { user, token } = await userLogin(req);
         res.cookie('jwt', token, {
             httpOnly: true,
             maxAge: 3 * 24 * 60 * 60 * 1000,
