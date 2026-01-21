@@ -20,23 +20,6 @@ const getBlog = async (req) => {
     }
 };
 
-const deleteBlog = async (req) => {
-    try {
-        await Blog.findOneAndDelete({ title: req.body.title });
-    } catch (error) {
-        throw new Error(error);
-    }
-};
-
-const updateBlog = async (req) => {
-    try {
-        const { title, content } = req.body;
-        await Blog.findOneAndUpdate({ title }, { content });
-    } catch (error) {
-        throw new Error(error);
-    }
-};
-
 const getAllBlogs = async (req) => {
     try {
         const blogs = await Blog.findById(req.user._id);
@@ -50,7 +33,5 @@ const getAllBlogs = async (req) => {
 module.exports = {
     createBlog,
     getBlog,
-    deleteBlog,
-    updateBlog,
     getAllBlogs
 };
