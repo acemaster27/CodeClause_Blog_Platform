@@ -10,12 +10,11 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(''); // Clear previous errors
+    setError(''); 
     
     try {
-      // Calls the login function from AuthContext -> calls authService.login
       await login(formData.email, formData.password);
-      navigate('/'); // Redirect to Home on success
+      navigate('/'); 
     } catch (err) {
       console.error(err);
       setError('Invalid email or password. Please try again.');

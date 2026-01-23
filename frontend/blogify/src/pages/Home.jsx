@@ -7,7 +7,7 @@ const Home = () => {
 
   useEffect(() => {
     blogService.getAll()
-      .then(res => setBlogs(res.data.blogs || [])) // Safely access .blogs
+      .then(res => setBlogs(res.data.blogs || [])) 
       .catch(err => console.error(err));
   }, []);
 

@@ -1,12 +1,9 @@
 import { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { blogService } from '../services/api';
-import { useAuth } from '../context/AuthContext';
 
 const BlogDetail = () => {
   const { id } = useParams();
-  const navigate = useNavigate();
-  const { user } = useAuth();
   const [blog, setBlog] = useState(null);
 
   useEffect(() => {
@@ -15,15 +12,7 @@ const BlogDetail = () => {
       .catch(err => console.error(err));
   }, [id]);
 
-  const handleDelete = async () => {
-    if(!window.confirm("Are you sure?")) return;
-    try {
-      await blogService.delete(id);
-      navigate('/');
-    } catch (err) {
-      alert("Failed to delete");
-    }
-  };
+
 
   if (!blog) return <div className="text-center mt-10">Loading...</div>;
 
@@ -44,18 +33,6 @@ const BlogDetail = () => {
       <div className="prose prose-lg max-w-none text-gray-700 leading-relaxed whitespace-pre-wrap">
         {blog.body}
       </div>
-
-      {/* Show Delete button only if user owns the blog */}
-      {user && user._id === blog.createdBy?._id && (
-        <div className="mt-10 border-t pt-6 flex space-x-4">
-           <button 
-             onClick={handleDelete}
-             className="bg-red-500 text-white px-6 py-2 rounded shadow hover:bg-red-600 transition"
-           >
-             Delete Blog
-           </button>
-        </div>
-      )}
     </div>
   );
 };

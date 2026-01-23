@@ -10,8 +10,6 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Optional: If you have a 'check-auth' route, use it here.
-    // Otherwise, we rely on the login action to set state.
     const savedUser = localStorage.getItem('user');
     if (savedUser) setUser(JSON.parse(savedUser));
     setLoading(false);
@@ -19,7 +17,6 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password) => {
     const response = await authService.login(email, password);
-    // Assuming backend returns { user: {...} }
     const userData = response.data.user || response.data; 
     setUser(userData);
     localStorage.setItem('user', JSON.stringify(userData));

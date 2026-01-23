@@ -5,7 +5,7 @@ import Login from './pages/Login';
 import Signup from './pages/Signup';
 import CreateBlog from './pages/CreateBlog';
 import BlogDetail from './pages/BlogDetail';
-import PrivateRoute from './components/PrivateRoute'; // Use the generic one from previous steps
+import PrivateRoute from './components/PrivateRoute'; 
 
 function App() {
   return (
