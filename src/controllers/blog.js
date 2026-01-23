@@ -2,9 +2,19 @@ const { blogCreate, blogGet, blogGetAll} = require('../services/blog');
 
 const BlogCreate = async (req, res) => {
     try{
-        blogCreate(req);
+        const { title, body } = req.body;
+        const createdBy = req.user._id;
+        const coverImage = req.file ? `/uploads/${req.file.filename}` : null;
+        req.body = {
+            title,
+            body,
+            coverImage,
+            createdBy
+        };
+        const blog = await blogCreate(req);
         res.status(201).json({
-            message: "Blog created successfully"
+            message: "Blog created successfully",
+            blog
         });
     } catch(error){
         res.status(500).json({
@@ -15,9 +25,10 @@ const BlogCreate = async (req, res) => {
 
 const BlogGet = async (req, res) => {
     try {
-        blogGet(req);
+        const blog = await blogGet(req);
         res.status(200).json({
-            message: "Blog fetched successfully"
+            message: "Blog fetched successfully",
+            blog
         });
     } catch (error) {
         res.status(500).json({
@@ -26,11 +37,12 @@ const BlogGet = async (req, res) => {
     }
 };
 
-const BlogGetById = async (req, res) => {
+const BlogGetAll = async (req, res) => {
     try {
-        blogGetAll(req);
+        const blogs = await blogGetAll(req);
         res.status(200).json({
-            message: "Blog fetched successfully"
+            message: "Blog fetched successfully",
+            blogs
         });
     } catch (error) {
         res.status(500).json({
@@ -42,5 +54,5 @@ const BlogGetById = async (req, res) => {
 module.exports = {
     BlogCreate,
     BlogGet,
-    BlogGetById
+    BlogGetAll
 }

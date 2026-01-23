@@ -1,12 +1,19 @@
-const { createBlog, getBlog, deleteBlog, updateBlog, getAllBlogs} = require('../repository/blog');
+const { create } = require('../models/blog');
+const { createBlog, getBlog, getAllBlogs} = require('../repository/blog');
 
 const blogCreate = (req) => {
     try {
-        const { title, content } = req.body;
-        if( !title || !content ) {
-            throw new Error("All fields are required");
+        const { title, body, coverImage, createdBy } = req.body;
+        if( !title || !content || title.length < 4 || content.length < 4 ) {
+            throw new Error("All fields are required. Content and title should be atleast 4 characters long");
         }
-        createBlog(req);
+        const blogData = {
+            title: title,
+            body: body,
+            coverImage: coverImage,
+            createdBy: createdBy
+        };
+        return createBlog(blogData);
     } catch (error) {
         throw new Error(error);
     }
@@ -16,9 +23,9 @@ const blogGet = (req) => {
     try {
         const { title } = req.body;
         if( !title ) {
-            throw new Error("All fields are required");
+            throw new Error("Title is required to fetch blog");
         }
-        getBlog(req);
+        return getBlog(req);
     } catch (error) {
         throw new Error(error);
     }
@@ -26,7 +33,7 @@ const blogGet = (req) => {
 
 const blogGetAll = (req) => {
     try {
-        getAllBlogs(req);
+        return getAllBlogs(req);
     } catch (error) {
         throw new Error(error);
     }    

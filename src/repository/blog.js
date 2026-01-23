@@ -2,11 +2,8 @@ const Blog = require("../src/models/blog");
 
 const createBlog = async (req) => {
     try {
-        const { title, content } = req.body;
-        await Blog.create({
-            title,
-            content,
-        });
+        const blog = await Blog.create(req);
+        return blog;
     } catch (error) {
         throw new Error(error);
     }
@@ -14,7 +11,7 @@ const createBlog = async (req) => {
 
 const getBlog = async (req) => {
     try {
-        await Blog.findOne({ title: req.body.title });
+        return await Blog.findOne({ title: req.body.title }).populate;
     } catch (error) {
         throw new Error(error);
     }
@@ -22,8 +19,7 @@ const getBlog = async (req) => {
 
 const getAllBlogs = async (req) => {
     try {
-        const blogs = await Blog.findById(req.user._id);
-        return blogs;
+        return await Blog.find({createdBy: req.user._id}).populate('createdBy', 'fullName');
     } catch (error) {
         throw new Error(error);
     }

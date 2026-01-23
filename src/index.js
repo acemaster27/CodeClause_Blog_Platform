@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const cors = require('cors');
+const path = require('path');
 const cookieParser = require('cookie-parser');
 const apiRoutes = require('./routes/index')
 
@@ -19,6 +20,7 @@ const setupAndStartServer = () => {
     }));
 
     app.use('/', apiRoutes);
+    app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
     app.listen(PORT, () => {
         console.log(`Listening on server ${PORT}`);

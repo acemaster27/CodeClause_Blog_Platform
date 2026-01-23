@@ -9,9 +9,13 @@ const blogSchema = new Schema({
         type: String,
         required: true,
     },
+    coverImage: {
+        type: String,
+    },
     createdBy: {
         type: Schema.Types.ObjectId,
         ref: 'user',
+        required: true,
     },
 }, { timestamps: true }
 );
